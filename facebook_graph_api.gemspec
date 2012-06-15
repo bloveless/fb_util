@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'Facebook Graph API'
+  s.name        = 'facebook_graph_api'
   s.version     = '0.0.5'
   s.date        = Time.now.strftime('%Y-%m-%d')
   s.summary     = "Oh my simple facebook graph api"

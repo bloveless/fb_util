@@ -95,8 +95,8 @@ class FacebookGraphAPI
   end
 
   def execute_request(end_point, method, parameters = {})
+    agent = Mechanize.new
     begin
-      agent = Mechanize.new
       if end_point.include? '?'
         url = @graph_url + end_point + '&access_token=' + @access_token
       else
@@ -119,6 +119,7 @@ class FacebookGraphAPI
       return (JSON.parse response.body)
     rescue Exception => e
       if !Rails.nil?
+        Rails.logger.info agent.response.body
         if !(method == 'post')
           Rails.logger.info 'FB: Error executing ' + method + ' request for "' + end_point + '"'
         else
