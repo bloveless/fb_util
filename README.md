@@ -12,7 +12,7 @@ facebook_graph_api.get_feed
 
 ## Caching ##
 
-Most of the methods are cache so that each time a class is called it will store the results of any method call. This way if you want to call a message more than one time it will not query from facebook again, but rather return the cached version. The get_fql method is not cache since you could potentially run two different fql queries in the same instantiation of a class.
+Most of the methods are cached so that each time a method is called it will store the results and return those results on any subsequent calls. This way if you want to call a message more than one time it will not query from facebook again, but rather return the cached version. The get_fql method is not cached since you could potentially run two different fql queries in the same instantiation of a class.
 
 ## Methods ##
 _All methods are assuming the use of the above initilization code including a valid access token._  
