@@ -17,49 +17,85 @@ Most of the methods are cache so that each time a class is called it will store 
 ## Methods ##
 _All methods are assuming the use of the above initilization code including a valid access token._  
 
+- - -
+
 Get the basic account information from facebook  
-**facebook_graph_api**_.get_account_info_
+
+**facebook_graph_api**.get\_account\_info
+
+- - -
 
 Get the users feed  
-**facebook_graph_api**_.get_feed_
+
+**facebook_graph_api**.get\_feed
+
+- - -
 
 Post a message to the users wall  
 *  message: text of the message to be posted. Links will not be converted to click able links. Use post_link to post a clickable link (including video)_  
-**facebook_graph_api**_.post_status(message)_
+
+**facebook_graph_api**.post\_status(message)
+
+- - -
 
 Post a picture to the users wall  
-*  picture_path: the actual file path to the image (no urls)  
+*  picture\_path: the actual file path to the image (no urls)  
 *  message: the message to be attached to the image if any. Can be null or empty.  
-*  post_to_feed: true (by default) if you want the picture to be posted to the users wall, false if you want it hidden. **This isn't 100% tested**  
+*  post\_to\_feed: true (by default) if you want the picture to be posted to the users wall, false if you want it hidden. **This isn't 100% tested**  
+
 **facebook_graph_api**_.post_picture(picture_path, message, post_to_feed=true)_
 
+- - -
+
 Set an already existing image to be the users cover image  
-*  picture_id: the facebook id of the image to use as the users cover image. **This currently doesn't allow for an offset, but this will be available in the next version**  
-**facebook_graph_api**_.set_as_cover_image(picture_id)_
+*  picture\_id: the facebook id of the image to use as the users cover image. **This currently doesn't allow for an offset, but this will be available in the next version**  
+
+**facebook_graph_api**.set\_as\_cover\_image(picture\_id)
+
+- - -
 
 Post a clickable link to a users feed (works for youtube videos as well)  
 *  link: the link (beginning with http:// or https://) that will be displayed in the users feed  
 *  message: the message to be posted with the link on the feed page  
-**facebook_graph_api**_.post_link(link, message)_
+
+**facebook_graph_api**.post\_link(link, message)
+
+- - - 
 
 Post a reply to a status that is already existing on facebook
-*  status_id: the facebook id of the status to reply to  
+*  status\_id: the facebook id of the status to reply to  
 *  message: the message to use in the reply  
-**facebook_graph_api**_.reply_to_status(status_id, message)
+
+**facebook_graph_api**.reply\_to\_status(status\_id, message)
+
+- - - 
 
 Delete a status  
-*  status_id: the facebook id of the status to delete  
-**facebook_graph_api**_.delete_status(status_id)
+*  status\_id: the facebook id of the status to delete  
+
+**facebook_graph_api**.delete_status(status\_id)
+
+- - - 
 
 Get statuses from facebook page/account  
-**facebook_graph_api**_.get_statuses_
+
+**facebook_graph_api**.get\_statuses
+
+- - - 
 
 Get the insights of a page (**this doesn't work for profiles**)  
-**facebook_graph_api**_.get_insights_
+
+**facebook_graph_api**.get\_insights
+
+- - - 
 
 Get any fql request  
 *  fql: the facebook query requested  
-**facebook_graph_api**_.get_fql(fql)_
+
+**facebook_graph_api**.get\_fql(fql)
+
+- - -
 
 Get pages associated with the account  
-**facebook_graph_api**_.get_pages_
+
+**facebook_graph_api**.get\_pages
