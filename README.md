@@ -7,7 +7,10 @@
 
 To get the users feed
 
-**facebook_graph_api** = FacebookGraphAPI.new(<access token>)  
+Get a facebook graph api object  
+*  access_token: OAuth access token from facebook to access the users account  
+*  debug: whether or not to display request debug information in rails development environment.  
+**facebook_graph_api** = FacebookGraphAPI.new(access_token, debug=false)  
 facebook_graph_api.get_feed
 
 ## Caching ##

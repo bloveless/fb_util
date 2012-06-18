@@ -5,8 +5,10 @@ class FacebookGraphAPI
   @access_token = nil
   @feed = nil
   @account_info = nil
+  @debug = nil
 
-  def initialize(access_token)
+  def initialize(access_token, debug = false)
+    @debug = debug
     @graph_url = 'https://graph.facebook.com'
     @access_token = access_token
     if @access_token.blank? && !Rails.nil?
@@ -79,6 +81,12 @@ class FacebookGraphAPI
   # Get statuses from facebook page/account  
   def get_statuses
     @statuses ||= get_request('/me/statuses')
+    # I have no idea why sometimes it uses the data index and sometimes it doesn't....
+    begin
+      return @statuses['data']
+    rescue
+      return @statuses
+    end
   end
 
   # Get the insights of a page (**this doesn't work for profiles**)  
@@ -127,6 +135,7 @@ class FacebookGraphAPI
   # parameters: the information to be send to facebook in a hash
   def execute_request(end_point, method, parameters = {})
     agent = Mechanize.new
+    response = nil
     begin
       if end_point.include? '?'
         url = @graph_url + end_point + '&access_token=' + @access_token
@@ -140,7 +149,7 @@ class FacebookGraphAPI
       elsif method == 'post'
         response = agent.post(url, parameters)
       end
-      if !Rails.nil?
+      if @debug && !Rails.nil?
         # Echo the response if we are in development mode
         if Rails.env.development?
           Rails.logger.info 'FB: ' + method.capitalize + end_point
@@ -150,13 +159,15 @@ class FacebookGraphAPI
       return (JSON.parse response.body)
     rescue Exception => e
       if !Rails.nil?
-        Rails.logger.info agent.response.body
-        if !(method == 'post')
-          Rails.logger.info 'FB: Error executing ' + method + ' request for "' + end_point + '"'
-        else
-          Rails.logger.info 'FB: Error executing ' + method + ' request for "' + end_point + '" with parameters: ' + parameters.inspect
-        end
+        Rails.logger.info e.page.body
         Rails.logger.info 'Raw exception: ' + e.message
+        if @debug
+          if !(method == 'post')
+            Rails.logger.info 'FB: Error executing ' + method + ' request for "' + end_point + '"'
+          else
+            Rails.logger.info 'FB: Error executing ' + method + ' request for "' + end_point + '" with parameters: ' + parameters.inspect
+          end
+        end
       end
       return []
     end
