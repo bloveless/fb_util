@@ -1,6 +1,6 @@
 require 'mechanize'
 
-class FacebookGraphAPI
+class FBUtil
   @graph_url = nil
   @access_token = nil
   @feed = nil
@@ -170,6 +170,36 @@ class FacebookGraphAPI
         end
       end
       return []
+    end
+  end
+
+  # These are the methods that don't need to be called with an instanciated class because they don't need an access token
+  class << self
+    # This method will parse out a signed request using all the necessary validation required to find out if a facebook request is completely valid
+    # signed_request: the signed request passed in by facebook
+    # application_secret: the application secret assigned to your application form facebook
+    # max_age: the allowed age of the signed request. Defaults to 1 hour
+    def parse_signed_request(signed_request, application_secret, max_age = 3600)
+      encoded_signature, encoded_json = signed_request.split('.', 2)
+      json = JSON.parse(base64_url_decode(encoded_json))
+      encryption_algorithm = json['algorithm']
+
+      if encryption_algorithm != 'HMAC-SHA256'
+        raise 'Unsupported encryption algorithm.'
+      elsif json['issued_at'] < Time.now.to_i - max_age
+        raise 'Signed request too old.'
+      elsif base64_url_decode(encoded_signature) != OpenSSL::HMAC.hexdigest('sha256', application_secret, encoded_json).split.pack('H*')
+        raise 'Invalid signature.' 
+      end
+      
+      return json
+    end
+
+    private
+    # This is a modifed Base64 decode method to ensure that the request ends with the proper amount of equals signs. Base64 is supposed to have a multple of 4 characters in it. i.e. 12341234. If it doesn't have a multiple of 4 characters in it then it is supposed to pad the string with equals signs. i.e. 1234123412== This method will do this.
+    def base64_url_decode(encoded_url)
+      encoded_url += '=' * (4 - encoded_url.length.modulo(4))
+      Base64.decode64(encoded_url.gsub('-', '+').gsub('_', '/'))
     end
   end
 end
