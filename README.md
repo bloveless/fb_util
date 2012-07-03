@@ -120,7 +120,7 @@ This method will generate the appropriate redirect for dialog oauth calls
 This method will get a short term access token for your application. Generally (1 - 2 hours)
 *  app_id: your app id assigned from facebook  
 *  app_secret: your app secret assigned from facebook  
-*  redirect_uri: A valid redirect uri is required to get access_tokens. You will not be redirected to this uri  
+*  redirect_uri: A valid redirect uri is required to get access_tokens. You will not be redirected to this uri (**NOTE** this redirect_uri must match the redirect_uri used in the generate_oauth_redirect used to generate the code which is the next parameter. Facebook uses the redirect_uri to encrypt and decrypt the code so if they do not match you will get a verification validation failed error from facebook) 
 *  code: the code sent back from facebook after the user has authorized your application (generate_oauth_redirect will redirect back to your requested uri with the code needed)  
 
 **FBUtil**.get_short_access_token(app_id, app_secret, redirect_uri, code)
@@ -130,7 +130,7 @@ This method will get a short term access token for your application. Generally (
 This method will get a long term access token. If you are getting the access_token for a facebook profile this will be valid for 60 days. If you are getting the access_token for a facebook page it be permanent.
 *  app_id: your app id assigned from facebook   
 *  app_secret: your app secret assigned from facebook  
-*  redirect_uri: A valid redirect uri is required to get access_tokens. You will not be redirected to this uri  
+*  redirect_uri: A valid redirect uri is required to get access_tokens. You will not be redirected to this uri (**NOTE** this redirect_uri must match the redirect_uri used in the generate_oauth_redirect used to generate the code which is the next parameter. Facebook uses the redirect_uri to encrypt and decrypt the code so if they do not match you will get a verification validation failed error from facebook)
 *  code: the code sent back from facebook after the user has authorized your application (generate_oauth_redirect will redirect back to your requested uri with the code needed)  
 
 **FBUtil**.get_long_access_token(app_id, app_secret, redirect_uri, code)
