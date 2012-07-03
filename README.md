@@ -1,7 +1,6 @@
 # FBUtil #
 
-## TODO ##
-1. Should have a way to get an access token since the entirety of the api is based off already having an api key. This will come.
+FBUtil came from my dealing with other facebook gems. I really really like it when the output from a third party api is returned in the same format as the third party api, so that I can parse the raw data and use it like I want to, rather than having to conform to someones idea of what it should look like. Out of this idea came FBUtil. It will perform the queries for you, with a little magic to get everything working and will return the raw data back from facebook which you may do with what you'd like. So far I have only build the magic for the function that I have used, but if you'd like to request additional functionality I would be more than happy to implement it at my leasure. But if you take a look at the source code I think you'll realize that it is very simple to add on to this library... meaning... you should try it and make a pull request. That would make me very happy!
 
 ## Usage example ##
 
@@ -109,9 +108,47 @@ These methods don't need a class to be instantiated since these methods don't ne
 
 - - -
 
+This method will generate the appropriate redirect for dialog oauth calls
+*  app_id: your app id from the facebook developer application  
+*  redirect_uri: the uri that you want facebook to redirect to after the user authorizes your app (you can pass get variables in this if you need to pass variables back to your application i.e. http://example.com/auth?client_id=1)  
+*  scope: comma seperate list of permissions your application is requesting (https://developers.facebook.com/docs/authentication/permissions/)  
+
+**FBUtil**.generate_oauth_redirect(app_id, redirect_uri, scope)
+
+- - -
+
+This method will get a short term access token for your application. Generally (1 - 2 hours)
+*  app_id: your app id assigned from facebook  
+*  app_secret: your app secret assigned from facebook  
+*  redirect_uri: A valid redirect uri is required to get access_tokens. You will not be redirected to this uri  
+*  code: the code sent back from facebook after the user has authorized your application (generate_oauth_redirect will redirect back to your requested uri with the code needed)  
+
+**FBUtil**.get_short_access_token(app_id, app_secret, redirect_uri, code)
+
+- - -
+
+This method will get a long term access token. If you are getting the access_token for a facebook profile this will be valid for 60 days. If you are getting the access_token for a facebook page it be permanent.
+*  app_id: your app id assigned from facebook   
+*  app_secret: your app secret assigned from facebook  
+*  redirect_uri: A valid redirect uri is required to get access_tokens. You will not be redirected to this uri  
+*  code: the code sent back from facebook after the user has authorized your application (generate_oauth_redirect will redirect back to your requested uri with the code needed)  
+
+**FBUtil**.get_long_access_token(app_id, app_secret, redirect_uri, code)
+
+- - -
+
+If you already have a short term access token this method will exchange that for a long term access token. 60 days for user accounts and indefinitely for profile pages
+*  short_access_token: the access token already assigned to the account. It must be a valid, non-expired access token  
+*  app_id: your app id assigned from facebook  
+*  app_secret: your app secret assigned from facebook  
+
+**FBUtil**.get_long_from_short_access_token(short_access_token, app_id, app_secret)
+
+- - -
+
 This method will parse out a signed request using all the necessary validation required to find out if a facebook request is completely valid  
 *  signed_request: the signed request passed in by facebook  
 *  application_secret: the application secret assigned to your application from facebook  
 *  max_age: the allowed age of the signed request. Defaults to 1 hour  
 
-**FBUtil**::parse_signed_request(signed_request, application_secret, max_age = 3600)
+**FBUtil**.parse_signed_request(signed_request, application_secret, max_age = 3600)
