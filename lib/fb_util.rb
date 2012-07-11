@@ -157,7 +157,12 @@ class FBUtil
           # Rails.logger.info 'FB Response: ' + response.body
         end
       end
-      return (JSON.parse response.body)
+      begin
+        return (JSON.parse response.body)
+      rescue JSON::ParserError => e
+        return response.body
+      end
+    # TODO: rescue real errors... this is horrid.
     rescue Exception => e
       if !Rails.nil?
         Rails.logger.info e.page.body
