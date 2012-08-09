@@ -54,9 +54,10 @@ class FBUtil
   end
 
   # Set an already existing image to be the users cover image
-  # picture_id: the facebook id of the image to use as the users cover image. This currently doesn't allow for an offset, but this will be available in the next version.
-  def set_as_cover_image(picture_id)
-    post_request('/me', {cover: picture_id, no_feed_story: 'true'})
+  # picture_id: the facebook id of the image to use as the users cover image.
+  # offset_y: the offset that will be used to display the correct portion of the cover image on facebook. Default: 50
+  def set_as_cover_image(picture_id, offset_y = 50)
+    post_request('/me', {cover: picture_id, offset_y: offset_y.to_i.abs, no_feed_story: 'true'})
   end
 
   # Post a clickable link to a users feed (works for youtube videos as well)

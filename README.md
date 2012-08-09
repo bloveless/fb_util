@@ -51,9 +51,10 @@ Post a picture to the users wall
 - - -
 
 Set an already existing image to be the users cover image  
-*  picture\_id: the facebook id of the image to use as the users cover image. **This currently doesn't allow for an offset, but this will be available in the next version**  
+*  picture\_id: the facebook id of the image to use as the users cover image.  
+*  offset\_y: the offset that will be used to display the correct portion of the cover image on facebook. Default: 50  
 
-**fb_util**.set\_as\_cover\_image(picture\_id)
+**fb_util**.set\_as\_cover\_image(picture\_id, offset_y = 50)
 
 - - -
 

@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'fb_util'
-  s.version     = '0.9.1'
+  s.version     = '0.9.2'
   s.date        = Time.now.strftime('%Y-%m-%d')
   s.summary     = "Oh my simple facebook util"
   s.description = "A quick utility class to work with the facebook graph api and misc facebook functions, will be version 1 as soon as I figure out tests for this."
